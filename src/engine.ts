@@ -31,6 +31,7 @@ export class Engine {
     this.screen = new MainMenu(this.term, this.gui);
 
     this.term.update = () => {
+      this.term.clear();
       const screen = this.screen.update();
       if (!Object.is(screen, this.screen)) {
         this.screen = screen;
