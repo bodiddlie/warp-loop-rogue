@@ -1,5 +1,5 @@
 import { RogueScreen } from './rogue-screen';
-import { Colors, GUI, Terminal, RNG } from 'wglt';
+import { Colors, GUI, Terminal } from 'wglt';
 import { GameMap } from './map/game-map';
 
 export class GameScreen extends RogueScreen {
