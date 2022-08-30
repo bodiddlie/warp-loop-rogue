@@ -1,6 +1,7 @@
 import { createFloorTile, createWallTile, Tile } from './tile';
 import { RNG, Terminal } from 'wglt';
 import { Point } from '../util/point';
+import { Rectangle } from '../util/rectangle';
 
 const chanceToStartAlive = 0.4;
 const deathLimit = 3;
@@ -89,27 +90,34 @@ export class GameMap {
     return neighbors;
   }
 
-  getScreenBounds(term: Terminal) {
+  getScreenBounds(term: Terminal): Rectangle {
     const halfHeight = Math.floor(term.height / 2);
     const halfWidth = Math.floor(term.width / 2);
     const startY = this.cameraPosition.y - halfHeight;
-    const endY = this.cameraPosition.y + halfHeight;
     const startX = this.cameraPosition.x - halfWidth;
-    const endX = this.cameraPosition.x + halfWidth;
-    return { startX, endX, startY, endY };
+    return new Rectangle(startX, startY, term.width, term.height);
+  }
+
+  isPointInBounds(point: Point): boolean {
+    return (
+      0 <= point.x &&
+      point.x < this.width &&
+      0 <= point.y &&
+      point.y < this.height
+    );
   }
 
   render(term: Terminal) {
-    const { startX, endX, startY, endY } = this.getScreenBounds(term);
-    for (let y = startY; y <= endY; y++) {
-      for (let x = startX; x <= endX; x++) {
+    const rectangle = this.getScreenBounds(term);
+    for (let y = rectangle.y; y <= rectangle.y + term.height; y++) {
+      for (let x = rectangle.x; x <= rectangle.x + term.width; x++) {
         const row = this.tiles[x];
         if (!row) continue;
         const tile = row[y];
         if (tile) {
           term.drawChar(
-            x - startX,
-            y - startY,
+            x - rectangle.x,
+            y - rectangle.y,
             tile.glyph.light.char,
             tile.glyph.light.fg,
             tile.glyph.light.bg,

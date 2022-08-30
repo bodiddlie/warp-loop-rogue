@@ -1,6 +1,7 @@
 import { GUI, Terminal } from 'wglt';
 import { RogueScreen } from './rogue-screen';
-import { MainMenu } from './main-menu';
+// import { MainMenu } from './main-menu';
+import { GameScreen } from './game-screen';
 
 export class Engine {
   term: Terminal;
@@ -28,7 +29,8 @@ export class Engine {
 
     this.gui = new GUI(this.term);
 
-    this.screen = new MainMenu(this.term, this.gui);
+    // this.screen = new MainMenu(this.term, this.gui);
+    this.screen = new GameScreen(this.term, this.gui);
 
     this.term.update = () => {
       this.term.clear();
