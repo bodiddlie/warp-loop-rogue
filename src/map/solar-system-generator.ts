@@ -3,8 +3,8 @@ import { fromRgb } from 'wglt';
 
 const STAR_RADIUS = 4;
 const BlueColor = fromRgb(0, 0, 200);
-const RedColor = fromRgb(200, 0, 0);
-const YellowColor = fromRgb(200, 200, 0);
+// const RedColor = fromRgb(200, 0, 0);
+// const YellowColor = fromRgb(200, 200, 0);
 
 export function generateSolarSystem(width: number, height: number): Tile[][] {
   const tiles = new Array<Tile[]>(width);
