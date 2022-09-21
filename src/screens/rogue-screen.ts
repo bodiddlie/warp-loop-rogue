@@ -10,10 +10,10 @@ export abstract class RogueScreen {
   abstract update(): RogueScreen;
 
   getScreenBounds(): Rectangle {
-    const halfHeight = Math.floor(this.term.height / 2);
+    const halfHeight = Math.floor((this.term.height - 6) / 2);
     const halfWidth = Math.floor(this.term.width / 2);
     const startY = Math.floor(this.cameraPosition.y - halfHeight);
     const startX = Math.floor(this.cameraPosition.x - halfWidth);
-    return new Rectangle(startX, startY, this.term.width, this.term.height);
+    return new Rectangle(startX, startY, this.term.width, this.term.height - 6);
   }
 }

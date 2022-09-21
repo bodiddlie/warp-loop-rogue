@@ -3,6 +3,7 @@ import { RogueScreen } from './screens/rogue-screen';
 // import { MainMenu } from './main-menu';
 // import { GameScreen } from './screens/game-screen';
 import { SolarSystemScreen } from './screens/solar-system-screen';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from './constants';
 
 export class Engine {
   term: Terminal;
@@ -12,8 +13,8 @@ export class Engine {
   constructor() {
     this.term = new Terminal(
       document.querySelector('canvas') as HTMLCanvasElement,
-      80,
-      45,
+      SCREEN_WIDTH,
+      SCREEN_HEIGHT,
       {
         maxFps: 20,
         crt: {

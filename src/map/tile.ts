@@ -26,10 +26,12 @@ const SPACE_GLYPH: Glyph = {
   light: { char: '.', fg: fromRgb(50, 50, 50), bg: Colors.BLACK },
 };
 
-const SUN_GLYPH: Glyph = {
-  dark: { char: ' ', fg: Colors.BLACK, bg: Colors.ORANGE },
-  light: { char: ' ', fg: Colors.BLACK, bg: Colors.ORANGE },
-};
+function buildSunGlyph(color: number): Glyph {
+  return {
+    dark: { char: ' ', fg: Colors.BLACK, bg: color },
+    light: { char: ' ', fg: Colors.BLACK, bg: color },
+  };
+}
 
 export class Tile {
   visible: boolean;
@@ -38,6 +40,7 @@ export class Tile {
     public glyph: Glyph,
     public walkable: boolean,
     public transparent: boolean,
+    public info: string = '',
   ) {
     this.visible = false;
     this.seen = false;
@@ -53,9 +56,9 @@ export function createWallTile() {
 }
 
 export function createSpaceTile() {
-  return new Tile(SPACE_GLYPH, true, true);
+  return new Tile(SPACE_GLYPH, true, true, 'The void of space.');
 }
 
-export function createSunTile() {
-  return new Tile(SUN_GLYPH, true, false);
+export function createSunTile(color: number) {
+  return new Tile(buildSunGlyph(color), true, false, 'A bright burning star.');
 }
