@@ -1,64 +1,69 @@
 import { Color, Colors, fromRgb } from 'wglt';
 
-export type Graphic = {
-  char: string;
-  fg: Color;
-  bg: Color;
-};
-
-export type Glyph = {
-  dark: Graphic;
-  light: Graphic;
-};
-
-const FLOOR_GLYPH: Glyph = {
-  dark: { char: '.', fg: fromRgb(100, 100, 100), bg: Colors.BLACK },
-  light: { char: '.', fg: fromRgb(200, 200, 200), bg: Colors.BLACK },
-};
-
-const WALL_GLYPH: Glyph = {
-  dark: { char: '#', fg: fromRgb(100, 100, 100), bg: Colors.BLACK },
-  light: { char: '#', fg: fromRgb(200, 200, 200), bg: Colors.BLACK },
-};
-
-const SPACE_GLYPH: Glyph = {
-  dark: { char: '.', fg: fromRgb(50, 50, 50), bg: Colors.BLACK },
-  light: { char: '.', fg: fromRgb(50, 50, 50), bg: Colors.BLACK },
-};
-
-function buildSunGlyph(color: number): Glyph {
-  return {
-    dark: { char: ' ', fg: Colors.BLACK, bg: color },
-    light: { char: ' ', fg: Colors.BLACK, bg: color },
-  };
+export class TileType {
+  constructor(
+    public char: string,
+    public fg: Color,
+    public bg: Color,
+    public passable: boolean,
+    public transparent: boolean,
+    public info: string = '',
+  ) {}
 }
 
 export class Tile {
   visible: boolean;
   seen: boolean;
-  constructor(
-    public glyph: Glyph,
-    public walkable: boolean,
-    public transparent: boolean,
-    public info: string = '',
-  ) {
+
+  constructor(public type: TileType) {
     this.visible = false;
     this.seen = false;
   }
 }
 
+const FLOOR_TYPE = new TileType(
+  '.',
+  fromRgb(100, 100, 100),
+  Colors.BLACK,
+  true,
+  true,
+);
+const WALL_TYPE = new TileType(
+  '#',
+  fromRgb(100, 100, 100),
+  Colors.BLACK,
+  false,
+  false,
+);
+const SPACE_TYPE = new TileType(
+  '.',
+  fromRgb(50, 50, 50),
+  Colors.BLACK,
+  true,
+  true,
+  'The void of space.',
+);
+const BLUE_DWARF_TYPE = new TileType(
+  ' ',
+  Colors.BLACK,
+  fromRgb(0, 0, 200),
+  false,
+  false,
+  'A bright burning star.',
+);
+
+export function createSpaceTile() {
+  return new Tile(SPACE_TYPE);
+}
+
+export function createSunTile() {
+  return new Tile(BLUE_DWARF_TYPE);
+}
+
 export function createFloorTile() {
-  return new Tile(FLOOR_GLYPH, true, true);
+  return new Tile(FLOOR_TYPE);
 }
 
 export function createWallTile() {
-  return new Tile(WALL_GLYPH, false, false);
-}
-
-export function createSpaceTile() {
-  return new Tile(SPACE_GLYPH, true, true, 'The void of space.');
-}
-
-export function createSunTile(color: number) {
-  return new Tile(buildSunGlyph(color), true, false, 'A bright burning star.');
+  return new Tile(WALL_TYPE);
 }

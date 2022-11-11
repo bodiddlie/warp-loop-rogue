@@ -28,14 +28,44 @@ export class SolarSystemScreen extends RogueScreen {
 
   update(): RogueScreen {
     this.map.render(this.term, this.getScreenBounds());
-    this.term.drawSingleBox(60, 0, 20, 10);
-    this.term.drawString(61, 1, this.getNamesUnderMouse());
+    this.drawNamesUnderMouse();
     this.term.drawString(0, 40, 'Hello');
     this.term.drawString(0, 41, 'Hello');
     this.term.drawString(0, 42, 'Hello');
     this.term.drawString(0, 43, 'Hello');
     this.term.drawString(0, 44, 'Hello');
     return this;
+  }
+
+  drawNamesUnderMouse() {
+    const MSG_WIDTH = 20;
+    const MSG_HEIGHT = 5;
+    const description = this.getNamesUnderMouse();
+    if (!description) return;
+
+    let lines = [description];
+    if (description.length > MSG_WIDTH - 2) {
+      const words = description.split(' ');
+      let currentLine = '';
+      lines = [];
+
+      while (words.length > 0) {
+        if ((currentLine + ' ' + words[0]).length > MSG_WIDTH - 2) {
+          lines.push(currentLine);
+          currentLine = '';
+        } else {
+          currentLine +=
+            currentLine.length > 0 ? ' ' + words.shift() : words.shift();
+        }
+      }
+
+      lines.push(currentLine);
+    }
+
+    this.term.drawSingleBox(60, 0, MSG_WIDTH, MSG_HEIGHT);
+    for (let y = 0; y < lines.length; y++) {
+      this.term.drawString(61, y + 1, lines[y]);
+    }
   }
 
   getNamesUnderMouse(): string {
@@ -46,6 +76,6 @@ export class SolarSystemScreen extends RogueScreen {
       return '';
     }
 
-    return this.map.tiles[x][y].info;
+    return this.map.tiles[x][y].type.info;
   }
 }

@@ -27,7 +27,7 @@ export class GameScreen extends RogueScreen {
     let startX = rng.nextRange(0, WIDTH);
     let startY = rng.nextRange(0, HEIGHT);
 
-    while (!this.map.tiles[startX][startY].walkable) {
+    while (!this.map.tiles[startX][startY].type.passable) {
       startX = rng.nextRange(0, WIDTH);
       startY = rng.nextRange(0, HEIGHT);
     }

@@ -29,9 +29,9 @@ export class GameMap {
           term.drawChar(
             x - screenBounds.x,
             y - screenBounds.y,
-            tile.glyph.light.char,
-            tile.glyph.light.fg,
-            tile.glyph.light.bg,
+            tile.type.char,
+            tile.type.fg,
+            tile.type.bg,
           );
         }
       }
