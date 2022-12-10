@@ -1,4 +1,15 @@
-import { Color, Colors, fromRgb } from 'wglt';
+import { Color, Colors, fromRgb, Terminal } from 'wglt';
+
+type RenderFunc = (
+  term: Terminal,
+  x: number,
+  y: number,
+  tileType: TileType,
+) => void;
+
+export const genericRender: RenderFunc = (term, x, y, tileType) => {
+  term.drawChar(x, y, tileType.char, tileType.fg, tileType.bg);
+};
 
 export class TileType {
   constructor(
@@ -8,7 +19,12 @@ export class TileType {
     public passable: boolean,
     public transparent: boolean,
     public info: string = '',
+    public renderFunc: RenderFunc = genericRender,
   ) {}
+
+  render(term: Terminal, x: number, y: number) {
+    this.renderFunc(term, x, y, this);
+  }
 }
 
 export class Tile {
@@ -35,30 +51,6 @@ const WALL_TYPE = new TileType(
   false,
   false,
 );
-const SPACE_TYPE = new TileType(
-  '.',
-  fromRgb(50, 50, 50),
-  Colors.BLACK,
-  true,
-  true,
-  'The void of space.',
-);
-const BLUE_DWARF_TYPE = new TileType(
-  ' ',
-  Colors.BLACK,
-  fromRgb(0, 0, 200),
-  false,
-  false,
-  'A bright burning star.',
-);
-
-export function createSpaceTile() {
-  return new Tile(SPACE_TYPE);
-}
-
-export function createSunTile() {
-  return new Tile(BLUE_DWARF_TYPE);
-}
 
 export function createFloorTile() {
   return new Tile(FLOOR_TYPE);

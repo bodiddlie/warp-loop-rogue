@@ -1,4 +1,4 @@
-import { createFloorTile, createWallTile, Tile } from './tile';
+import { createFloorTile, createWallTile, Tile } from './tiles/tile';
 
 const CHANCE_TO_START_ALIVE = 0.4;
 const DEATH_LIMIT = 3;

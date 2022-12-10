@@ -1,4 +1,5 @@
-import { createSpaceTile, createSunTile, Tile } from './tile';
+import { createSpaceTile, createSunTile, Tile } from './tiles';
+import { Colors } from 'wglt';
 
 const STAR_RADIUS = 2;
 
@@ -27,11 +28,12 @@ export function generateSolarSystem(width: number, height: number): Tile[][] {
 function createStar(radius: number): Tile[][] {
   const tiles = new Array<Tile[]>(radius * 2);
 
+  const starColor = Math.random() > 0.5 ? Colors.DARK_BLUE : Colors.DARK_RED;
   for (let x = 0; x <= radius * 2; x++) {
     tiles[x] = new Array<Tile>(radius * 2);
     for (let y = 0; y <= radius * 2; y++) {
       if ((x - radius) ** 2 + (y - radius) ** 2 <= radius ** 2) {
-        tiles[x][y] = createSunTile();
+        tiles[x][y] = createSunTile(starColor);
       } else {
         tiles[x][y] = createSpaceTile();
       }

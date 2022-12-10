@@ -16,7 +16,7 @@ export class Engine {
       SCREEN_WIDTH,
       SCREEN_HEIGHT,
       {
-        maxFps: 20,
+        maxFps: 10,
         crt: {
           scale: 6,
           blur: 0.5,

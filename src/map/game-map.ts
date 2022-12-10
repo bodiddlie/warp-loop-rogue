@@ -1,4 +1,4 @@
-import { Tile } from './tile';
+import { Tile } from './tiles/tile';
 import { Terminal } from 'wglt';
 import { Point } from '../util/point';
 import { Rectangle } from '../util/rectangle';
@@ -26,13 +26,7 @@ export class GameMap {
         if (!row) continue;
         const tile = row[y];
         if (tile) {
-          term.drawChar(
-            x - screenBounds.x,
-            y - screenBounds.y,
-            tile.type.char,
-            tile.type.fg,
-            tile.type.bg,
-          );
+          tile.type.render(term, x - screenBounds.x, y - screenBounds.y);
         }
       }
     }
