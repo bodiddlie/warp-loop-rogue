@@ -27,13 +27,17 @@ export class SolarSystemScreen extends RogueScreen {
   }
 
   update(): RogueScreen {
+    this.map.update();
+
     this.map.render(this.term, this.getScreenBounds());
     this.drawNamesUnderMouse();
-    this.term.drawString(0, 40, 'Hello');
-    this.term.drawString(0, 41, 'Hello');
-    this.term.drawString(0, 42, 'Hello');
-    this.term.drawString(0, 43, 'Hello');
-    this.term.drawString(0, 44, 'Hello');
+
+    // Example of rendering text at the bottom of the screen
+    // this.term.drawString(0, 40, 'Hello');
+    // this.term.drawString(0, 41, 'Hello');
+    // this.term.drawString(0, 42, 'Hello');
+    // this.term.drawString(0, 43, 'Hello');
+    // this.term.drawString(0, 44, 'Hello');
     return this;
   }
 
@@ -76,6 +80,6 @@ export class SolarSystemScreen extends RogueScreen {
       return '';
     }
 
-    return this.map.tiles[x][y].type.info;
+    return this.map.tiles[x][y].type.glyph.info;
   }
 }

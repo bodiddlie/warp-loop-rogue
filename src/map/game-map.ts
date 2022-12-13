@@ -19,6 +19,15 @@ export class GameMap {
     );
   }
 
+  update() {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        const tile = this.tiles[x][y];
+        tile.type.update();
+      }
+    }
+  }
+
   render(term: Terminal, screenBounds: Rectangle) {
     for (let y = screenBounds.y; y <= screenBounds.y + term.height; y++) {
       for (let x = screenBounds.x; x <= screenBounds.x + term.width; x++) {
