@@ -1,70 +1,70 @@
-import { Color, Colors, fromRgb, Terminal } from 'wglt';
+import {Color, Colors, fromRgb, RNG, Terminal} from 'wglt';
 
-type RenderFunc = (
-  term: Terminal,
-  x: number,
-  y: number,
-  tileType: TileType,
-) => void;
-
-type UpdateFunc = () => void;
-
-export const genericRender: RenderFunc = (term, x, y, tileType) => {
-  term.drawChar(
-    x,
-    y,
-    tileType.glyph.char,
-    tileType.glyph.fg,
-    tileType.glyph.bg,
-  );
-};
-
-export const genericUpdate: UpdateFunc = () => {};
+const rng = new RNG();
 
 export class Glyph {
   constructor(
     public char: string,
     public fg: Color,
     public bg: Color,
-    public info: string = '',
   ) {}
 }
 
 export class TileType {
   constructor(
-    public glyph: Glyph,
+    public frames: Glyph[],
+    public frameTime:number,
     public passable: boolean,
     public transparent: boolean,
-    public renderFunc: RenderFunc = genericRender,
-    public updateFunc: UpdateFunc = genericUpdate,
-  ) {}
-
-  render(term: Terminal, x: number, y: number) {
-    this.renderFunc(term, x, y, this);
-  }
-
-  update() {
-    this.updateFunc();
+    public info: string = '',
+  ) {
   }
 }
 
 export class Tile {
   visible: boolean;
   seen: boolean;
+  currentFrameIndex: number;
+  timeSinceLastFrame: number;
+  frameTime: number;
 
   constructor(public type: TileType) {
     this.visible = false;
     this.seen = false;
+    this.currentFrameIndex = 0;
+    this.timeSinceLastFrame = 0;
+    if (this.type.frameTime === Infinity) {
+      this.frameTime = rng.nextRange(500, 10000);
+    } else {
+      this.frameTime = this.type.frameTime;
+    }
+  }
+
+  update(deltaTime: number) {
+    this.timeSinceLastFrame += deltaTime;
+    if (this.timeSinceLastFrame > this.frameTime) {
+      if (this.type.frames.length > 1){
+        this.currentFrameIndex = (this.currentFrameIndex + 1) % this.type.frames.length;
+      }
+      this.timeSinceLastFrame = 0;
+    }
+  }
+
+  render(term: Terminal, x: number, y:number) {
+    const glyph = this.type.frames[this.currentFrameIndex];
+    term.drawChar(x, y, glyph.char, glyph.fg, glyph.bg);
   }
 }
 
 const FLOOR_TYPE = new TileType(
-  new Glyph('.', fromRgb(100, 100, 100), Colors.BLACK),
+  [new Glyph('.', fromRgb(100, 100, 100), Colors.BLACK)],
+  0,
   true,
   true,
 );
 const WALL_TYPE = new TileType(
-  new Glyph('#', fromRgb(100, 100, 100), Colors.BLACK),
+  [new Glyph('#', fromRgb(100, 100, 100), Colors.BLACK)],
+  0,
   false,
   false,
 );

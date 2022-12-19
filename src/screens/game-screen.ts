@@ -40,7 +40,7 @@ export class GameScreen extends RogueScreen {
     this.inputHandler = new GameInputHandler(this.player);
   }
 
-  update(): RogueScreen {
+  update(_: number): RogueScreen {
     try {
       const action = this.inputHandler.handleInput(this.term);
       if (action instanceof Action) {

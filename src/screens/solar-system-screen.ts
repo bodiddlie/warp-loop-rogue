@@ -26,8 +26,8 @@ export class SolarSystemScreen extends RogueScreen {
     this.inputHandler = new GameInputHandler(this.player);
   }
 
-  update(): RogueScreen {
-    this.map.update();
+  update(deltaTime: number): RogueScreen {
+    this.map.update(deltaTime);
 
     this.map.render(this.term, this.getScreenBounds());
     this.drawNamesUnderMouse();
@@ -80,6 +80,6 @@ export class SolarSystemScreen extends RogueScreen {
       return '';
     }
 
-    return this.map.tiles[x][y].type.glyph.info;
+    return this.map.tiles[x][y].type.info;
   }
 }

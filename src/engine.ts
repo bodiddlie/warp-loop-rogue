@@ -9,6 +9,7 @@ export class Engine {
   term: Terminal;
   gui: GUI;
   screen: RogueScreen;
+  lastFrameTime: number;
 
   constructor() {
     this.term = new Terminal(
@@ -29,6 +30,7 @@ export class Engine {
       },
     );
 
+    this.lastFrameTime = performance.now();
     this.gui = new GUI(this.term);
 
     // this.screen = new MainMenu(this.term, this.gui);
@@ -36,8 +38,11 @@ export class Engine {
     this.screen = new SolarSystemScreen(this.term, this.gui);
 
     this.term.update = () => {
+      const now = performance.now();
+      const delta = now - this.lastFrameTime;
+      this.lastFrameTime = now;
       this.term.clear();
-      const screen = this.screen.update();
+      const screen = this.screen.update(delta);
       if (!Object.is(screen, this.screen)) {
         this.screen = screen;
       }

@@ -7,7 +7,7 @@ export abstract class RogueScreen {
 
   protected constructor(public term: Terminal, public gui: GUI) {}
 
-  abstract update(): RogueScreen;
+  abstract update(deltaTime: number): RogueScreen;
 
   getScreenBounds(): Rectangle {
     const halfHeight = Math.floor((this.term.height - 6) / 2);
