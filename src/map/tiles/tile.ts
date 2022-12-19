@@ -4,7 +4,7 @@ const rng = new RNG();
 
 export class Glyph {
   constructor(
-    public char: string,
+    public char: string | number,
     public fg: Color,
     public bg: Color,
   ) {}

@@ -24,7 +24,7 @@ export function createSunTile(bg: Color) {
         new Glyph(' ', Colors.BLACK, bg),
         new Glyph(' ', Colors.BLACK, bg),
         new Glyph(' ', Colors.BLACK, bg),
-        new Glyph(' ', Colors.BLACK, Colors.WHITE)
+        new Glyph(176, Colors.WHITE, bg)
       ],
       Infinity,
       false,
@@ -37,7 +37,7 @@ export function createSunTile(bg: Color) {
 }
 
 const STAR_TYPE = new TileType(
-  [new Glyph('.', fromRgb(50, 50, 50), Colors.BLACK), new Glyph('.', fromRgb(255, 255, 255), Colors.BLACK)],
+  [new Glyph(7, fromRgb(50, 50, 50), Colors.BLACK), new Glyph(7, fromRgb(255, 255, 255), Colors.BLACK)],
   Infinity,
   true,
   true,
