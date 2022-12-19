@@ -1,4 +1,4 @@
-import {createSpaceTile, createStarTile, createSunTile, Tile} from './tiles';
+import {createCoronaTile, createSpaceTile, createStarTile, createSunTile, Tile} from './tiles';
 import { Colors } from 'wglt';
 
 const STAR_RADIUS = 2;
@@ -36,8 +36,11 @@ function createStar(radius: number): Tile[][] {
   for (let x = 0; x <= radius * 2; x++) {
     tiles[x] = new Array<Tile>(radius * 2);
     for (let y = 0; y <= radius * 2; y++) {
-      if ((x - radius) ** 2 + (y - radius) ** 2 <= radius ** 2) {
+      if ((x - radius) ** 2 + (y - radius) ** 2 < radius ** 2) {
         tiles[x][y] = createSunTile(starColor);
+      }
+      else if ((x - radius) ** 2 + (y - radius) ** 2 === radius ** 2) {
+        tiles[x][y] = createCoronaTile(starColor);
       } else {
         tiles[x][y] = createSpaceTile();
       }
